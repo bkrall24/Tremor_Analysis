@@ -77,6 +77,8 @@ if (excel_file is not None) and (key_file is not None):
         animals = [a for a in excel_tables.keys() if a != 'Summary']
 
         freqs, tprs = compile_excel_sheets(excel_tables, animals, animal_key, parameters)
+        freqs = freqs.sort_index(axis = 1)
+        tprs = tprs.sort_index(axis = 1)
 
         buffer = io.BytesIO()
         with pd.ExcelWriter(buffer, engine="xlsxwriter") as writer:

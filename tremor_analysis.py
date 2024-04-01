@@ -33,7 +33,7 @@ def compile_excel_sheets(excel_tables, animals, animal_key, parameters):
     all_freq = []
     for an in animals:
         if int(an) in animal_key.index:
-            st.write_stream('Calculating animal :'+str(an))
+            st.write_stream('Calculating animal :'+an)
             group = animal_key.loc[int(an), 'GROUP']
             column_index = (group, an)
 

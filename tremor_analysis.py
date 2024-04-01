@@ -66,24 +66,27 @@ if (excel_file is not None) and (key_file is not None):
     bin_mins = st.number_input(label = 'Enter bin size in minutes', value = 5)
     exp_mins = st.number_input(label = 'Enter the length of experiment in minutes', value = 60)
 
-    parameters = {'hz': hz, 'bin_time': bin_mins, 'col_time':10.24, 'exp_length' : exp_mins, 'tremor_freq': 1}
+    entered = st.button('Enter')
 
-    excel_tables = pd.read_excel(excel_file, sheet_name = None,  engine='openpyxl')
-    animal_key = pd.read_excel(key_file, index_col = 0,  engine='openpyxl')
+    if entered:
+        parameters = {'hz': hz, 'bin_time': bin_mins, 'col_time':10.24, 'exp_length' : exp_mins, 'tremor_freq': 1}
 
-    animals = [a for a in excel_tables.keys() if a != 'Summary']
+        excel_tables = pd.read_excel(excel_file, sheet_name = None,  engine='openpyxl')
+        animal_key = pd.read_excel(key_file, index_col = 0,  engine='openpyxl')
 
-    freqs, tprs = compile_excel_sheets(excel_tables, animals, animal_key, parameters)
+        animals = [a for a in excel_tables.keys() if a != 'Summary']
 
-    buffer = io.BytesIO()
-    with pd.ExcelWriter(buffer, engine="xlsxwriter") as writer:
-        freqs.to_excel(writer, sheet_name = "All Frequencies")
-        tprs.to_excel(writer, sheet_name = 'Tremor Power Ratios')
-    
+        freqs, tprs = compile_excel_sheets(excel_tables, animals, animal_key, parameters)
 
-    st.download_button(
-        label="Download Excel workbook",
-        data= buffer,
-        file_name="workbook.xlsx",
-        mime="application/vnd.ms-excel"
-    )
+        buffer = io.BytesIO()
+        with pd.ExcelWriter(buffer, engine="xlsxwriter") as writer:
+            freqs.to_excel(writer, sheet_name = "All Frequencies")
+            tprs.to_excel(writer, sheet_name = 'Tremor Power Ratios')
+        
+
+        st.download_button(
+            label="Download Excel workbook",
+            data= buffer,
+            file_name="workbook.xlsx",
+            mime="application/vnd.ms-excel"
+        )

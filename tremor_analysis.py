@@ -71,10 +71,10 @@ if (excel_file is not None) and (key_file is not None):
     if entered:
         parameters = {'hz': hz, 'bin_time': bin_mins, 'col_time':10.24, 'exp_length' : exp_mins, 'tremor_freq': 1}
 
-        excel_tables = pd.read_excel(excel_file, sheet_name = None,  engine='openpyxl')
+        excel_tables = pd.read_excel(excel_file, sheet_name = None)
         st.text("Excel File Read")
 
-        animal_key = pd.read_excel(key_file, index_col = 0,  engine='openpyxl')
+        animal_key = pd.read_excel(key_file, index_col = 0)
 
         animals = [a for a in excel_tables.keys() if a != 'Summary']
 

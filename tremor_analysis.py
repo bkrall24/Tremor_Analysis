@@ -6,7 +6,8 @@ import re
 
 def process_excel_sheet(sheet, parameters):
     
-    data = sheet.iloc[0:256, :].set_index('f (Hz)').iloc[:, 2:]
+    # data = sheet.iloc[0:256, :].set_index('f (Hz)').iloc[:, 2:]
+    data = sheet.iloc[0:256,:].set_index(sheet.columns[0]).iloc[:,2:]
     new_cols = np.linspace(0, parameters['col_time'] * (sheet.shape[1]-1), sheet.shape[1])/60
     data.columns = new_cols[2:-1]
 
@@ -76,7 +77,8 @@ if (excel_file is not None) and (key_file is not None):
 
         animal_key = pd.read_excel(key_file, index_col = 0)
 
-        animals = [a for a in excel_tables.keys() if a != 'Summary']
+        # animals = [a for a in excel_tables.keys() if a != 'Summary']
+        animals = list(excel_tables.keys())[1:]
 
         freqs, tprs = compile_excel_sheets(excel_tables, animals, animal_key, parameters)
         freqs = freqs.sort_index(axis = 1)

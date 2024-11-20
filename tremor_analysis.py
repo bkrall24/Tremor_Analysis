@@ -55,7 +55,7 @@ def process_excel_sheet(sheet, parameters):
     a = data.groupby([frequency_bins], observed = False).mean().T.groupby([time_bins], observed = False).mean() * 1000
 
     non_target_columns = [col for col in range(len(a.columns)) if col != parameters['tremor_freq']]
-    tpr = 2 * a.iloc[:, parameters['tremor_freq']] / a.iloc[:, non_target_columns].sum(axis=1)
+    tpr = 2 * a.iloc[:, parameters['tremor_freq']] / a.iloc[:, non_target_columns].sum(axis=1, skipna = False)
     # tpr = 2 * a.iloc[:,parameters['tremor_freq']] / (a.iloc[:,0]+ a.iloc[:,2])
 
     return a, tpr
